@@ -39,7 +39,7 @@ function Sidebar() {
             return;
         }
         setIsLoading(true);
-        axios.post('http://localhost:5000/api/v1/convert-to-symbol', {svgData: textArea}, {
+        axios.post(`${import.meta.env['VITE_API_URL']}/convert-to-symbol`, {svgData: textArea}, {
             headers: {
                 // Overwrite Axios's automatically set Content-Type
                 'Content-Type': 'application/json'

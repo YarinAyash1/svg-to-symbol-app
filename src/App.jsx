@@ -3,7 +3,6 @@ import {ResultsContext, ResultsProvider} from "./context.jsx";
 import Sidebar from "./components/Sidebar.jsx";
 import Results from "./components/Results.jsx";
 import {Col, Container, Row} from "react-bootstrap";
-
 function App() {
     return (
         <ResultsProvider>
