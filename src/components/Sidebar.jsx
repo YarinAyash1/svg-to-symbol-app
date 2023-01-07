@@ -11,9 +11,11 @@ function Sidebar() {
     const [isLoading, setIsLoading] = useState(false);
     const [submitted, setSubmittedStatus] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
+    const [svgName, setSvgName] = useState('');
     const textAreaRef = useRef(null);
 
     const loadSampleSVG = () => {
+        setSvgName('sample')
         setTextArea(getSampleSVG)
         setSubmittedStatus(true);
     }
@@ -33,13 +35,16 @@ function Sidebar() {
 
     const handleSubmit = (event) => {
         if (event) event.preventDefault();
-        if(!textArea) {
+        if (!textArea) {
             setErrorMessage('Please add your svg');
             textAreaRef.current.focus();
             return;
         }
         setIsLoading(true);
-        axios.post(`${import.meta.env['VITE_API_URL']}/convert-to-symbol`, {svgData: textArea}, {
+        axios.post(`${import.meta.env['VITE_API_URL']}/convert`, {
+            svgData: textArea,
+            name: svgName
+        }, {
             headers: {
                 // Overwrite Axios's automatically set Content-Type
                 'Content-Type': 'application/json'
@@ -55,7 +60,8 @@ function Sidebar() {
     function onSuccess(response) {
         const uuid = getUuid();
         const svg = response.data.input;
-        const compiledSamples = buildHtml(response.data.symbol, uuid);
+        const svgId = response.data.svgId || uuid;
+        const compiledSamples = buildHtml(response.data.symbol, svgId);
         let newResults = [{
             svg,
             symbol: compiledSamples.symbol,
@@ -67,9 +73,14 @@ function Sidebar() {
 
         setResults(newResults);
 
+        clearInputs();
+        setIsLoading(false);
+    }
+
+    const clearInputs = () => {
         setErrorMessage('')
         setTextArea('')
-        setIsLoading(false);
+        setSvgName('')
     }
 
 
@@ -88,8 +99,15 @@ function Sidebar() {
                 href="https://css-tricks.com/svg-symbol-good-choice-icons/"
                 rel="noopener">this article from CSS-Tricks</a>.
             </p>
-            <hr className={'opacity-25'} />
+            <hr className={'opacity-25'}/>
             <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="SVGId">
+                    <Form.Label>Symbol Name</Form.Label>
+                    <Form.Control placeholder={'Symbol Name'}
+                                  onChange={(e) => setSvgName(e.target.value)}
+                                  value={svgName}
+                    />
+                </Form.Group>
                 <Form.Group className="mb-3" controlId="SVGTextArea">
                     <Form.Label>Convert SVG</Form.Label>
                     <Form.Control placeholder={'<svg>\n' + '  <!-- here the svg to convert... -->\n' + '</svg>'}
