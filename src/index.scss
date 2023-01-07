@@ -1,0 +1,41 @@
+@import "bootstrap/scss/bootstrap";
+
+:root{
+  --bs-link-color: #E37600;
+  --bs-btn-bg: #337ab7;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+a, .btn {
+  text-decoration: unset;
+}
+.card-body {
+
+  .icon {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    background: #c0c0c0;
+    padding: 10px;
+    margin: 0 auto;
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.card-footer{
+  button{
+    border: 0;
+  }
+}
