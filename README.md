@@ -43,3 +43,5 @@ npm run build
 * [Vite](https://vitejs.dev/)
     * A web development build tool for modern JavaScript apps
 
+## Server Repo
+* [REPO](https://github.com/YarinAyash1/svg-to-symbol-server)
