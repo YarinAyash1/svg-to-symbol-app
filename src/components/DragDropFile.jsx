@@ -49,14 +49,14 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
             setFiles([])
 
         } catch (err) {
+            console.log(err)
             setErrorMessage('Error!')
             setIsLoading(false);
         }
     }
 
     useEffect(() => {
-        if (!files.length) return setPreview([]);
-
+        if (!files.length) return;
         let arrayOfFiles = [];
 
         for (let i = 0; i < files.length; i++) {
@@ -71,7 +71,7 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
 
         setPreview(images)
 
-        return () => setFiles([]);
+        // return () => setFiles([]);
     }, [files])
 
     // const handleFiles = (files) => {
