@@ -30,11 +30,6 @@ function Sidebar() {
         return setSubmittedStatus(false)
     }, [submitted])
 
-
-    useEffect(() => {
-
-    }, [])
-
     const handleSubmit = (event) => {
         if (event) event.preventDefault();
         if (!textArea) {
@@ -112,7 +107,7 @@ function Sidebar() {
                 onChange={e => setAllowUpload(e.target.checked)}
             />
             {
-                allowUpload ? (<DragDropFile onSuccess={onSuccess}/>) : (
+                allowUpload ? (<DragDropFile onSuccess={onSuccess} setIsLoading={setIsLoading} isLoading={isLoading}/>) : (
                     <Form onSubmit={handleSubmit}>
                         <Form.Group className="mb-3" controlId="SVGId">
                             <Form.Label>Symbol Name</Form.Label>

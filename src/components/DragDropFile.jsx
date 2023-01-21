@@ -5,7 +5,7 @@ import {Alert, Button} from "react-bootstrap";
 import axios from "axios";
 import IconClose from "./icons/IconClose.jsx";
 
-function DragDropFile({onSuccess}) {
+function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
     // drag state
     const [dragActive, setDragActive] = useState(false);
     const [files, setFiles] = useState([]);
@@ -22,6 +22,8 @@ function DragDropFile({onSuccess}) {
             inputRef.current.focus();
             return;
         }
+
+        setIsLoading(true);
         const formData = new FormData();
         for (let i = 0; i < files.length; i++) {
             formData.append("svgFiles", files[i]);
@@ -48,6 +50,7 @@ function DragDropFile({onSuccess}) {
 
         } catch (err) {
             setErrorMessage('Error!')
+            setIsLoading(false);
         }
     }
 
@@ -158,8 +161,9 @@ function DragDropFile({onSuccess}) {
                 type={'submit'}
                 className={'mt-3'}
                 variant="primary">
-                Convert <IconSend/>
+                {isLoading ? 'Converting...' : 'Convert'} <IconSend/>
             </Button>
+
         </form>
     );
 };
