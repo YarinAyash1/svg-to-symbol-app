@@ -4,12 +4,14 @@ import {useContext, useEffect, useRef, useState} from "react";
 import {buildHtml, getSampleSVG, getUuid} from "../helper.js";
 import axios from "axios";
 import {ResultsContext} from "../context.jsx";
+import DragDropFile from "./DragDropFile.jsx";
 
 function Sidebar() {
     const {results, setResults} = useContext(ResultsContext);
     const [textArea, setTextArea] = useState();
     const [isLoading, setIsLoading] = useState(false);
     const [submitted, setSubmittedStatus] = useState(false);
+    const [allowUpload, setAllowUpload] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [svgName, setSvgName] = useState('');
     const textAreaRef = useRef(null);
@@ -62,20 +64,23 @@ function Sidebar() {
         const svg = response.data.input;
         const svgId = response.data.svgId || uuid;
         const compiledSamples = buildHtml(response.data.symbol, svgId);
-        let newResults = [{
+
+        setResults(prevState => [{
             svg,
             symbol: compiledSamples.symbol,
             icon: compiledSamples.icon,
             codeSample: compiledSamples.symbolExample,
             time: new Date()
-        }, ...results];
-        localStorage.setItem('svg-to-symbol-converter', JSON.stringify(newResults));
-
-        setResults(newResults);
+        }, ...prevState]);
 
         clearInputs();
         setIsLoading(false);
     }
+
+    useEffect(() => {
+        if(!results.length) return;
+        localStorage.setItem('svg-to-symbol-converter', JSON.stringify(results));
+    }, [results])
 
     const clearInputs = () => {
         setErrorMessage('')
@@ -100,38 +105,46 @@ function Sidebar() {
                 rel="noopener">this article from CSS-Tricks</a>.
             </p>
             <hr className={'opacity-25'}/>
-            <Form onSubmit={handleSubmit}>
-                <Form.Group className="mb-3" controlId="SVGId">
-                    <Form.Label>Symbol Name</Form.Label>
-                    <Form.Control placeholder={'Symbol Name'}
-                                  onChange={(e) => setSvgName(e.target.value)}
-                                  value={svgName}
-                    />
-                </Form.Group>
-                <Form.Group className="mb-3" controlId="SVGTextArea">
-                    <Form.Label>Convert SVG</Form.Label>
-                    <Form.Control placeholder={'<svg>\n' + '  <!-- here the svg to convert... -->\n' + '</svg>'}
-                                  onChange={(e) => setTextArea(e.target.value)}
-                                  value={textArea}
-                                  ref={textAreaRef}
-                                  as="textarea" rows={12}/>
-                </Form.Group>
-                {errorMessage ? (<Alert variant={'danger'}>
-                    {errorMessage}
-                </Alert>) : null}
-                <Button
-                    type={'submit'}
-                    variant="primary">
-                    {isLoading ? 'Converting...' : 'Convert'} <IconSend/>
-                </Button>{' '}
-                <Button
-                    onClick={loadSampleSVG}
-                    variant="link">
-                    or load a sample
-                </Button>
-            </Form>
-
-
+            <Form.Check
+                type="switch"
+                id="custom-switch"
+                label={!allowUpload ? 'Switch to upload files' : 'Switch to inline svg'}
+                onChange={e => setAllowUpload(e.target.checked)}
+            />
+            {
+                allowUpload ? (<DragDropFile onSuccess={onSuccess}/>) : (
+                    <Form onSubmit={handleSubmit}>
+                        <Form.Group className="mb-3" controlId="SVGId">
+                            <Form.Label>Symbol Name</Form.Label>
+                            <Form.Control placeholder={'Symbol Name'}
+                                          onChange={(e) => setSvgName(e.target.value)}
+                                          value={svgName}
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="SVGTextArea">
+                            <Form.Label>Convert SVG</Form.Label>
+                            <Form.Control placeholder={'<svg>\n' + '  <!-- here the svg to convert... -->\n' + '</svg>'}
+                                          onChange={(e) => setTextArea(e.target.value)}
+                                          value={textArea}
+                                          ref={textAreaRef}
+                                          as="textarea" rows={12}/>
+                        </Form.Group>
+                        {errorMessage ? (<Alert variant={'danger'}>
+                            {errorMessage}
+                        </Alert>) : null}
+                        <Button
+                            type={'submit'}
+                            variant="primary">
+                            {isLoading ? 'Converting...' : 'Convert'} <IconSend/>
+                        </Button>{' '}
+                        <Button
+                            onClick={loadSampleSVG}
+                            variant="link">
+                            or load a sample
+                        </Button>
+                    </Form>
+                )
+            }
         </div>
     );
 }

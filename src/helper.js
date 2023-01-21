@@ -17,7 +17,6 @@ export const buildHtml = (rawSymbolCode, uuid) => {
     };
 
     let symbol = rawSymbolCode
-        .replace(`<symbol `, `<symbol id="${uuid}" `)
         .replace(/<title>.*<\/title>\s/, '');
 
     const icon = `
@@ -31,15 +30,11 @@ export const buildHtml = (rawSymbolCode, uuid) => {
     symbolCode.pop();
     symbolCode = symbolCode.join('\n');
 
-    const symbolExample = `
-    <svg display="none" xmlns="http://www.w3.org/2000/svg">
-    ${symbolCode}
-    </svg>`;
 
     return {
         symbol,
         icon,
-        symbolExample
+        symbolExample: symbolCode
     };
 }
 

@@ -1,6 +1,6 @@
 @import "bootstrap/scss/bootstrap";
 
-:root{
+:root {
   --bs-link-color: #E37600;
   --bs-btn-bg: #337ab7;
 }
@@ -16,6 +16,7 @@ body {
 a, .btn {
   text-decoration: unset;
 }
+
 .card-body {
 
   .icon {
@@ -34,8 +35,97 @@ a, .btn {
   }
 }
 
-.card-footer{
-  button{
+.card-footer {
+  button {
     border: 0;
+  }
+}
+
+#form-file-upload {
+  height: 16rem;
+  width: 28rem;
+  max-width: 100%;
+  position: relative;
+}
+
+#input-file-upload {
+  display: none;
+}
+
+#drag-file-element {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+#label-file-upload {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-width: 2px;
+  border-radius: 1rem;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  text-align: center;
+  background-color: #f8fafc;
+
+  &.drag-active {
+    background-color: #ffffff;
+  }
+}
+
+#uploaded-files {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  img {
+    width: 100%;
+    height: 100%;
+  }
+  .file-preview {
+    position: relative;
+    padding: 3px;
+    border-width: 1px;
+    border-radius: 5px;
+    border-style: solid;
+    border-color: #cbd5e1;
+    width: 50px;
+    height: 50px;
+  }
+
+  button {
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    border: 0;
+
+    &:hover, &:focus {
+      opacity: 1;
+    }
+  }
+}
+
+.upload-button {
+  cursor: pointer;
+  padding: 0.25rem;
+  font-size: 1rem;
+  border: none;
+  font-family: 'Oswald', sans-serif;
+  background-color: transparent;
+
+  &:hover, &:focus {
+    text-decoration-line: underline;
   }
 }
