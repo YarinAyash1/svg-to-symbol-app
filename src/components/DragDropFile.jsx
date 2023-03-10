@@ -47,9 +47,11 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
             }
             setErrorMessage('')
             setFiles([])
+            setPreview([])
 
         } catch (err) {
             console.log(err)
+            setPreview([])
             setErrorMessage('Error!')
             setIsLoading(false);
         }
