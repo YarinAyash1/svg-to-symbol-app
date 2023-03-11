@@ -1,25 +1,31 @@
 // drag drop file component
-import {useEffect, useRef, useState} from "react";
-import IconSend from "./icons/SendIcon.jsx";
+import React, {useEffect, useRef, useState} from "react";
+import IconSend from "./icons/SendIcon";
 import {Alert, Button} from "react-bootstrap";
 import axios from "axios";
-import IconClose from "./icons/IconClose.jsx";
+import IconClose from "./icons/IconClose";
 
-function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
+type DragDropFileProps = {
+    onSuccess: ({data}: { data: any }) => void;
+    setIsLoading: (isLoading: boolean) => void;
+    isLoading?: boolean;
+};
+
+function DragDropFile({onSuccess, setIsLoading, isLoading = false}: DragDropFileProps) {
     // drag state
     const [dragActive, setDragActive] = useState(false);
-    const [files, setFiles] = useState([]);
-    const [preview, setPreview] = useState([]);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [files, setFiles] = useState<File[]>([]);
+    const [preview, setPreview] = useState<string[]>([]);
+    const [errorMessage, setErrorMessage] = useState<string>("");
 
     // ref
-    const inputRef = useRef(null);
+    const inputRef = useRef<HTMLInputElement>(null);
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!files.length) {
             setErrorMessage('Please add your svg file');
-            inputRef.current.focus();
+            inputRef.current?.focus();
             return;
         }
 
@@ -59,28 +65,28 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
 
     useEffect(() => {
         if (!files.length) return;
-        let arrayOfFiles = [];
+        let arrayOfFiles: File[] = [];
 
         for (let i = 0; i < files.length; i++) {
             arrayOfFiles.push(files[i]);
         }
 
-        let images = [];
+        let images: string[] = [];
         arrayOfFiles.map((e) => {
             const ImageUrl = URL.createObjectURL(e);
-            images.push(ImageUrl)
-        })
+            images.push(ImageUrl);
+        });
 
-        setPreview(images)
+        setPreview(images);
 
         // return () => setFiles([]);
-    }, [files])
+    }, [files]);
 
     // const handleFiles = (files) => {
     // }
 
     // handle drag events
-    const handleDrag = function (e) {
+    const handleDrag = function (e: React.DragEvent) {
         e.preventDefault();
         e.stopPropagation();
         if (e.type === "dragenter" || e.type === "dragover") {
@@ -89,29 +95,29 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
             setDragActive(false);
         }
     };
-
     // triggers when file is dropped
-    const handleDrop = function (e) {
+    const handleDrop = function (e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         e.stopPropagation();
         setDragActive(false);
         if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-            setFiles(prevState => [...prevState, ...e.dataTransfer.files])
+            setFiles((prevState) => [...prevState, ...Array.from(e.dataTransfer.files)]);
             // handleFiles(e.dataTransfer.files);
         }
     };
 
-    // triggers when file is selected with click
-    const handleChange = function (e) {
+// triggers when file is selected with click
+    const handleChange = function (e: React.ChangeEvent<HTMLInputElement>) {
         e.preventDefault();
         if (e.target.files && e.target.files[0]) {
-            setFiles(prevState => [...prevState, ...e.target.files])
-            // handleFiles(e.target.files);
+            const fileList = e.target.files;
+            const fileArray = Array.from(fileList) as File[];
+            setFiles(prevState => [...prevState, ...fileArray]);
         }
     };
 
-    const removeImageFromArray = (e) => {
-        const index = e.target.id;
+    const removeImageFromArray = (e: React.MouseEvent<HTMLButtonElement>) => {
+        const index = Number(e.currentTarget.id);
         let newPreview = [...preview];
 
         newPreview.splice(index, 1);
@@ -120,11 +126,13 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
 
 // triggers the input when the button is clicked
     const onButtonClick = () => {
-        inputRef.current.click();
+        inputRef.current?.click();
     };
 
+
     return (
-        <form id="form-file-upload" onDragEnter={handleDrag}
+
+        <form id="form-file-upload"  onDragEnter={(e: React.DragEvent<HTMLFormElement>) => handleDrag(e)}
               encType="multipart/form-data"
               onSubmit={handleSubmit}>
             <input ref={inputRef} type="file"
@@ -145,10 +153,10 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
                 {errorMessage}
             </Alert>) : null}
             <div id={'uploaded-files'} className={'mt-3'}>
-                {preview.map((img, index) =>
+                {preview.map((img: string, index: number) =>
                     (
                         <div className={'file-preview'} key={index}>
-                            <img src={img} id={index} alt="pic1" width="50" height="50"/>
+                            <img src={img} id={'' + index} alt="pic1" width="50" height="50"/>
                             <Button size={'sm'}
                                     variant="danger"
                                     onClick={(e) => {
@@ -168,6 +176,6 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}) {
 
         </form>
     );
-};
+}
 
 export default DragDropFile

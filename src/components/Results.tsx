@@ -1,17 +1,17 @@
-import {Col, ListGroup, Row} from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useContext} from "react";
-import {ResultsContext} from "../context.jsx";
-import {getItemDate} from "../helper.js";
-import CodeSnippet from "./CodeSnippet.jsx";
-import IconClose from "./icons/IconClose.jsx";
+import {ResultsContext} from "../context";
+import {getItemDate} from "../helper";
+import CodeSnippet from "./CodeSnippet";
+import IconClose from "./icons/IconClose";
 
-function Results() {
+function Results(): JSX.Element | null {
     const {results, deleteItemFromStorage} = useContext(ResultsContext);
 
     if (!results.length)
-        return;
+        return null;
 
     return (
         <div className="results pt-3">

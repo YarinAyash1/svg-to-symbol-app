@@ -2,7 +2,12 @@ import {useState} from "react";
 import {Button} from "react-bootstrap";
 import {CopyBlock, github} from "react-code-blocks";
 
-function CodeSnippet({icon, symbol}) {
+type CodeSnippetProps = {
+    icon: string,
+    symbol: string
+}
+
+function CodeSnippet({icon, symbol}: CodeSnippetProps) {
     const [show, setShow] = useState(false);
 
     return (

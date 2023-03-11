@@ -1,4 +1,6 @@
-function IconClose(props) {
+import { SVGProps } from "react";
+
+function IconClose(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
     return (
         <svg fill="none" viewBox="0 0 24 24" height="1em" width="1em" {...props}>
             <path

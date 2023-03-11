@@ -1,4 +1,6 @@
-function IconSend(props) {
+import { SVGProps } from "react";
+
+function IconSend(props: JSX.IntrinsicAttributes & SVGProps<SVGSVGElement>) {
 	return (
 		<svg
 			fill="none"

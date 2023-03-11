@@ -1,26 +1,26 @@
 import {Alert, Button, Form} from "react-bootstrap";
-import IconSend from "./icons/SendIcon.jsx";
-import {useContext, useEffect, useRef, useState} from "react";
-import {buildHtml, getSampleSVG, getUuid} from "../helper.js";
+import IconSend from "./icons/SendIcon";
+import React, {useContext, useEffect, useRef, useState} from "react";
+import {buildHtml, getSampleSVG, getUuid} from "../helper";
 import axios from "axios";
-import {ResultsContext} from "../context.jsx";
-import DragDropFile from "./DragDropFile.jsx";
+import {ResultsContext} from "../context";
+import DragDropFile from "./DragDropFile";
 
 function Sidebar() {
     const {results, setResults} = useContext(ResultsContext);
-    const [textArea, setTextArea] = useState();
-    const [isLoading, setIsLoading] = useState(false);
-    const [submitted, setSubmittedStatus] = useState(false);
-    const [allowUpload, setAllowUpload] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
-    const [svgName, setSvgName] = useState('');
-    const textAreaRef = useRef(null);
+    const [textArea, setTextArea] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [submitted, setSubmittedStatus] = useState<boolean>(false);
+    const [allowUpload, setAllowUpload] = useState<boolean>(false);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [svgName, setSvgName] = useState<string>('');
+    const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
     const loadSampleSVG = () => {
-        setSvgName('sample')
-        setTextArea(getSampleSVG)
+        setSvgName("sample");
+        setTextArea(getSampleSVG());
         setSubmittedStatus(true);
-    }
+    };
 
     useEffect(() => {
         if (!submitted) return;
@@ -30,11 +30,11 @@ function Sidebar() {
         return setSubmittedStatus(false)
     }, [submitted])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
         if (event) event.preventDefault();
         if (!textArea) {
             setErrorMessage('Please add your svg');
-            textAreaRef.current.focus();
+            textAreaRef.current?.focus();
             return;
         }
         setIsLoading(true);
@@ -54,7 +54,7 @@ function Sidebar() {
             });
     };
 
-    function onSuccess(response) {
+    function onSuccess(response: { data: { input: any; svgId: string; symbol: string; }; }) {
         const uuid = getUuid();
         const svg = response.data.input;
         const svgId = response.data.svgId || uuid;

@@ -1,9 +1,10 @@
-import {ResultsProvider} from "./context.jsx";
-import Sidebar from "./components/Sidebar.jsx";
-import Results from "./components/Results.jsx";
+import {ResultsProvider} from "./context";
+import Sidebar from "./components/Sidebar";
+import Results from "./components/Results";
 import {Col, Container, Row} from "react-bootstrap";
 import {useEffect} from "react";
 import axios from "axios";
+
 function App() {
 
     useEffect(() => {
