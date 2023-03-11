@@ -12,15 +12,13 @@ interface ResultsItem {
 }
 type TypeResultsContext = {
     results: ResultsItem[],
-    setResults: (results: (prevState: any) => any[]) => void;
+    setResults: (results: (prevState: any) => any[]) => void; // remove this any
     deleteItemFromStorage: (index: number) => void;
 }
 
 export const ResultsContext = createContext<TypeResultsContext>({
-    setResults(results: ResultsItem[]): void {
-    },
-    deleteItemFromStorage(index: number): void {
-    },
+    setResults(results: ResultsItem[]): void {},
+    deleteItemFromStorage(index: number): void {},
     results: []
 } as unknown as TypeResultsContext);
 
