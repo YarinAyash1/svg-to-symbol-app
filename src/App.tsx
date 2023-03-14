@@ -4,6 +4,7 @@ import Results from "./components/Results";
 import {Col, Container, Row} from "react-bootstrap";
 import {useEffect} from "react";
 import axios from "axios";
+import GithubLink from "./components/GithubLink";
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
                     </Col>
                 </Row>
             </Container>
+            <GithubLink />
         </ResultsProvider>
     )
 }

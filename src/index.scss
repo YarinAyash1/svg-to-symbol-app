@@ -5,6 +5,9 @@
   --bs-btn-bg: #337ab7;
 }
 
+$prime: #0d6efd;
+$second: #0c1016;
+
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
@@ -90,6 +93,7 @@ a, .btn {
     width: 100%;
     height: 100%;
   }
+
   .file-preview {
     position: relative;
     padding: 3px;
@@ -127,5 +131,85 @@ a, .btn {
 
   &:hover, &:focus {
     text-decoration-line: underline;
+  }
+}
+
+.github-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 0.5rem 1rem;
+  font-size: 2rem;
+  border: none;
+  filter: url('#gooey');
+  background-color: $prime;
+  transition: 0.3s background-color;
+
+  &:focus {
+    outline: none;
+  }
+
+  .bubbles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+
+    .bubble {
+      background-color: $prime;
+      border-radius: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: block;
+      z-index: -1;
+      transition: 0.3s background-color;
+
+      @for $bubble from 1 through 10 {
+        &:nth-child(#{$bubble}) {
+          $size: 25px;
+          left: (random(30) + 10)+px;
+          width: $size;
+          height: $size;
+          animation: move-#{$bubble} #{3 + $bubble*0.02}s infinite;
+          animation-delay: #{$bubble*0.2}s;
+        }
+      }
+    }
+  }
+
+  &:hover, &:focus {
+    background: #0a58ca;
+
+    .bubble {
+      background: #0a58ca;
+    }
+  }
+}
+
+.tooltip {
+  --bs-tooltip-bg: #0a58ca;
+  &-inner {
+    background-color: #0a58ca;
+  }
+
+  &-arrow:before {
+    border-left-color: #0a58ca;
+  }
+}
+
+@for $bubble from 1 through 10 {
+  @keyframes move-#{$bubble} {
+    0% {
+      transform: translate(0, 0);
+    }
+    99% {
+      transform: translate(0, -(random(80) + 50)+px);
+    }
+    100% {
+      transform: translate(0, 0);
+      opacity: 0;
+    }
   }
 }
