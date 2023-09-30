@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState, ReactNode} from "react";
 
-interface ResultsProviderProps {
+interface SymbolConvertorProviderProps {
     children: ReactNode;
 }
 export interface ResultsItem {
@@ -11,28 +11,28 @@ export interface ResultsItem {
     codeSample: string;
 }
 
-type TypeResultsContext = {
+type TypeSymbolConvertorContext = {
     results: ResultsItem[],
     setResults: (results: (prevState: any) => any[]) => void; // remove this any
     deleteItemFromStorage: (index: number) => void;
 }
 
-export const ResultsContext = createContext<TypeResultsContext>({
+export const SymbolConvertorContext = createContext<TypeSymbolConvertorContext>({
     setResults(results: ResultsItem[]): void {},
     deleteItemFromStorage(index: number): void {},
     results: []
-} as unknown as TypeResultsContext);
+} as unknown as TypeSymbolConvertorContext);
 
-export function ResultsProvider({children}: ResultsProviderProps) {
+export function SymbolConvertorProvider({children}: SymbolConvertorProviderProps) {
     const [results, setResults] = useState<ResultsItem[]>([]);
 
     useEffect(() => {
-        const storedResults = localStorage.getItem('svg-to-symbol-converter');
+        const storedResults = localStorage.getItem('symbol-to-svg-converter');
 
         if (storedResults)
             return setResults(JSON.parse(storedResults));
 
-        localStorage.setItem('svg-to-symbol-converter', JSON.stringify([]));
+        localStorage.setItem('symbol-to-svg-converter', JSON.stringify([]));
         setResults([]);
     }, []);
 
@@ -40,12 +40,12 @@ export function ResultsProvider({children}: ResultsProviderProps) {
         const newResults = [...results];
         newResults.splice(index, 1);
         setResults(newResults);
-        localStorage.setItem('svg-to-symbol-converter', JSON.stringify(newResults));
+        localStorage.setItem('symbol-to-svg-converter', JSON.stringify(newResults));
     }
 
     return (
-        <ResultsContext.Provider value={{results, setResults, deleteItemFromStorage}}>
+        <SymbolConvertorContext.Provider value={{results, setResults, deleteItemFromStorage}}>
             {children}
-        </ResultsContext.Provider>
+        </SymbolConvertorContext.Provider>
     );
 }

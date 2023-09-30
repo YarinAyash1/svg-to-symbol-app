@@ -4,7 +4,7 @@ import {CopyBlock, github} from "react-code-blocks";
 
 type CodeSnippetProps = {
     icon: string,
-    symbol: string
+    symbol?: string
 }
 
 function CodeSnippet({icon, symbol}: CodeSnippetProps) {
@@ -23,13 +23,16 @@ function CodeSnippet({icon, symbol}: CodeSnippetProps) {
                             codeBlock
                         />
                         <br/>
-                        <CopyBlock
-                            text={symbol}
-                            language={'jsx'}
-                            showLineNumbers={false}
-                            theme={github}
-                            codeBlock
-                        />
+                        {symbol ? (
+
+                            <CopyBlock
+                                text={symbol}
+                                language={'jsx'}
+                                showLineNumbers={false}
+                                theme={github}
+                                codeBlock
+                            />
+                        ) : null}
                     </>
                 ) : null
 

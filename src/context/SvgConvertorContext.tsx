@@ -1,6 +1,6 @@
 import {createContext, useEffect, useState, ReactNode} from "react";
 
-interface ResultsProviderProps {
+interface SvgConvertorProviderProps {
     children: ReactNode;
 }
 export interface ResultsItem {
@@ -11,19 +11,19 @@ export interface ResultsItem {
     codeSample: string;
 }
 
-type TypeResultsContext = {
+type TypeSvgConvertorContext = {
     results: ResultsItem[],
     setResults: (results: (prevState: any) => any[]) => void; // remove this any
     deleteItemFromStorage: (index: number) => void;
 }
 
-export const ResultsContext = createContext<TypeResultsContext>({
+export const SvgConvertorContext = createContext<TypeSvgConvertorContext>({
     setResults(results: ResultsItem[]): void {},
     deleteItemFromStorage(index: number): void {},
     results: []
-} as unknown as TypeResultsContext);
+} as unknown as TypeSvgConvertorContext);
 
-export function ResultsProvider({children}: ResultsProviderProps) {
+export function SvgConvertorProvider({children}: SvgConvertorProviderProps) {
     const [results, setResults] = useState<ResultsItem[]>([]);
 
     useEffect(() => {
@@ -44,8 +44,8 @@ export function ResultsProvider({children}: ResultsProviderProps) {
     }
 
     return (
-        <ResultsContext.Provider value={{results, setResults, deleteItemFromStorage}}>
+        <SvgConvertorContext.Provider value={{results, setResults, deleteItemFromStorage}}>
             {children}
-        </ResultsContext.Provider>
+        </SvgConvertorContext.Provider>
     );
 }

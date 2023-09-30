@@ -20,6 +20,14 @@ a, .btn {
   text-decoration: unset;
 }
 
+.nav-link{
+  color: #fff;
+  &:focus, &:hover, &:active{
+    color: #fff;
+    opacity: 0.9;
+  }
+}
+
 .card-body {
 
   .icon {
@@ -190,6 +198,7 @@ a, .btn {
 
 .tooltip {
   --bs-tooltip-bg: #0a58ca;
+
   &-inner {
     background-color: #0a58ca;
   }
@@ -213,3 +222,22 @@ a, .btn {
     }
   }
 }
+
+.export-all {
+  background: #000;
+  position: fixed;
+  bottom: 20px;
+  right: 100px;
+  color: #fff;
+  font-size: 12px;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #{$primary};
+  --bs-btn-active-border-color: #{$primary};
+
+  &:hover, &:focus, &:active {
+    background: $primary;
+    color: #fff;
+    transform: scale(0.95);
+  }
+}
+

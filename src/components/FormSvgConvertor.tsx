@@ -1,25 +1,16 @@
 import {Alert, Button, Form} from "react-bootstrap";
 import IconSend from "./icons/SendIcon";
-import React, {ReactElement, useContext, useEffect, useRef, useState} from "react";
+import React, {useContext, useEffect, useRef, useState} from "react";
 import {buildHtml, getSampleSVG, getUuid} from "../helper";
 import axios from "axios";
-import {ResultsContext} from "../context";
-import DragDropFile from "./DragDropFile";
-import FormSvgConvertor from "./FormSvgConvertor";
+import {SvgConvertorContext} from "../context/SvgConvertorContext";
 
-type SidebarProps = {
-    title: string,
-    description: ReactElement,
-    formConvertor: JSX.Element,
-    allowUploader: boolean
-};
 
-function Sidebar({title, description, allowUploader = false, formConvertor}: SidebarProps) {
-    const {results, setResults} = useContext(ResultsContext);
+function FormSvgConvertor() {
+    const {results, setResults} = useContext(SvgConvertorContext);
     const [textArea, setTextArea] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [submitted, setSubmittedStatus] = useState<boolean>(false);
-    const [allowUpload, setAllowUpload] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [svgName, setSvgName] = useState<string>('');
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -93,32 +84,37 @@ function Sidebar({title, description, allowUploader = false, formConvertor}: Sid
 
 
     return (
-        <div className={'position-sticky top-0 pt-3 pe-lg-5'}>
-            <h1 className="title">{title}</h1>
-            {description}
-            <hr className={'opacity-25'}/>
-            {
-                allowUploader ? (
-                    <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        label={!allowUpload ? 'Switch to upload files' : 'Switch to inline svg'}
-                        onChange={e => setAllowUpload(e.target.checked)}
-                    />
-                ) : null
-            }
-            {
-                allowUpload ? (
-                    <DragDropFile
-                        onSuccess={onSuccess}
-                        setIsLoading={setIsLoading}
-                        isLoading={isLoading}/>
-                ) : (
-                    formConvertor
-                )
-            }
-        </div>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="SVGId">
+                <Form.Label>Symbol Name</Form.Label>
+                <Form.Control placeholder={'Symbol Name'}
+                              onChange={(e) => setSvgName(e.target.value)}
+                              value={svgName}
+                />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="SVGTextArea">
+                <Form.Label>Convert SVG</Form.Label>
+                <Form.Control placeholder={'<svg>\n' + '  <!-- here the svg to convert... -->\n' + '</svg>'}
+                              onChange={(e) => setTextArea(e.target.value)}
+                              value={textArea}
+                              ref={textAreaRef}
+                              as="textarea" rows={12}/>
+            </Form.Group>
+            {errorMessage ? (<Alert variant={'danger'}>
+                {errorMessage}
+            </Alert>) : null}
+            <Button
+                type={'submit'}
+                variant="primary">
+                {isLoading ? 'Converting...' : 'Convert'} <IconSend/>
+            </Button>{' '}
+            <Button
+                onClick={loadSampleSVG}
+                variant="link">
+                or load a sample
+            </Button>
+        </Form>
     );
 }
 
-export default Sidebar
+export default FormSvgConvertor
