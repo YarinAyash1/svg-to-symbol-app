@@ -78,9 +78,9 @@ const ExportAll = () => {
                     <Button variant="primary" onClick={handleCopy}>
                         {copied ? 'Copied' : 'Copy'}
                     </Button>
-                    <Button variant="primary" onClick={handleDownload}>
-                        {'Download File'}
-                    </Button>
+                    {/*<Button variant="primary" onClick={handleDownload}>*/}
+                    {/*    {'Download File'}*/}
+                    {/*</Button>*/}
                 </Modal.Footer>
             </Modal>
         </>
