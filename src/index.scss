@@ -230,6 +230,8 @@ a, .btn {
   right: 100px;
   color: #fff;
   font-size: 12px;
+  display: flex;
+  align-items: center;
   --bs-btn-active-color: #fff;
   --bs-btn-active-bg: #{$primary};
   --bs-btn-active-border-color: #{$primary};

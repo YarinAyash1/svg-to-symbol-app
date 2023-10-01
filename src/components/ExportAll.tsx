@@ -1,4 +1,4 @@
-import {Button, Modal, OverlayTrigger, Tooltip} from "react-bootstrap";
+import {Button, Modal, OverlayTrigger, Spinner, Tooltip} from "react-bootstrap";
 import React, {useState} from "react";
 import axios from "axios";
 import {ResultsItem} from "../context";
@@ -48,16 +48,23 @@ const ExportAll = () => {
                 setExportData(response.data.data);
                 handleShow();
                 setCopied(false)
+
             })
-            .catch(() => {
+            .finally(() => {
                 setIsLoading(false);
-            });
+            })
     };
 
     return (
         <>
             <button className="btn export-all" onClick={handleExport}>
                 Export All Symbols
+                {
+                    isLoading ? (<Spinner size={'sm'} style={{
+                        marginLeft: '10px',
+                        paddingTop: '5px'
+                    }}/>) : null
+                }
             </button>
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton style={{border: "unset"}}>
