@@ -5,9 +5,12 @@ import React from "react";
 import FormSymbolConvertor from "../components/FormSymbolConvertor";
 import {SymbolConvertorProvider} from "../context/SymbolConvertorContext";
 import SymbolsResults from "../components/SymbolsResults";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function SymbolConvertor() {
-
+    useDocumentTitle({
+        title: 'Symbol to SVG Converter'
+    })
     return (
         <>
             <SymbolConvertorProvider>
