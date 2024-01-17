@@ -1,4 +1,4 @@
-import {Col, Row} from "react-bootstrap";
+import {Col, OverlayTrigger, Row, Tooltip} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import {useContext} from "react";
@@ -8,9 +8,10 @@ import CodeSnippet from "./CodeSnippet";
 import IconClose from "./icons/IconClose";
 import {SvgConvertorContext} from "../context/SvgConvertorContext";
 import {SymbolConvertorContext} from "../context/SymbolConvertorContext";
+import IconDownload from "./icons/IconDownload";
 
 function SymbolsResults(): JSX.Element | null {
-    const {results, deleteItemFromStorage} = useContext(SymbolConvertorContext);
+    const {results, deleteItemFromStorage, downloadFile} = useContext(SymbolConvertorContext);
 
     if (!results.length)
         return null;
@@ -26,7 +27,21 @@ function SymbolsResults(): JSX.Element | null {
                                     {getItemDate(item.time)}
                                 </Col>
                                 <Col className={'text-end'}>
-                                    <Button size={'sm'} variant="danger" onClick={() => deleteItemFromStorage(i)}>Delete <IconClose /></Button>
+                                    <OverlayTrigger
+                                        key={'left'}
+                                        placement={'left'}
+                                        overlay={
+                                            <Tooltip id={`tooltip-${'left'}`}>
+                                                Download File
+                                            </Tooltip>
+                                        }
+                                    >
+                                        <Button size={'sm'} variant="link" onClick={() => downloadFile(i)}>
+                                            <IconDownload width={'25px'} height={'25px'} />
+                                        </Button>
+                                    </OverlayTrigger>
+                                    <Button size={'sm'} variant="danger"
+                                            onClick={() => deleteItemFromStorage(i)}>Delete <IconClose/></Button>
                                 </Col>
                             </Row>
                         </Card.Header>
@@ -45,7 +60,7 @@ function SymbolsResults(): JSX.Element | null {
                             </Row>
                         </Card.Body>
                         <Card.Footer>
-                            <CodeSnippet icon={item.svg} />
+                            <CodeSnippet icon={item.svg}/>
                         </Card.Footer>
                     </Card>
                 ))

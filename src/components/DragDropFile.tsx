@@ -47,6 +47,7 @@ function DragDropFile({onSuccess, setIsLoading, isLoading = false}: DragDropFile
 
             if (!response.data.symbols) return setErrorMessage('Error!');
             for (const symbol of response.data.symbols) {
+                console.log(symbol)
                 onSuccess({
                     data: symbol
                 })

@@ -49,3 +49,21 @@ export const getItemDate = (date: number): string => {
 
     return `${dateString} ${timeString}`;
 }
+
+export function validateAndFixSvg(svgString: string): string {
+    // Add xmlns attribute if it doesn't exist
+    if (!svgString.includes('xmlns="http://www.w3.org/2000/svg"')) {
+        svgString = svgString.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    }
+
+    // Add height and width attributes using values from viewBox
+    const viewBoxMatch = svgString.match(/viewBox="([^"]+)"/);
+    if (viewBoxMatch) {
+        const viewBoxValues = viewBoxMatch[1].split(' ');
+        const width = viewBoxValues[2];
+        const height = viewBoxValues[3];
+        svgString = svgString.replace('<svg', `<svg width="${width}" height="${height}"`);
+    }
+
+    return svgString;
+}

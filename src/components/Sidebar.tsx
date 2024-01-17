@@ -1,11 +1,9 @@
-import {Alert, Button, Form} from "react-bootstrap";
-import IconSend from "./icons/SendIcon";
+import {Form} from "react-bootstrap";
 import React, {ReactElement, useContext, useEffect, useRef, useState} from "react";
 import {buildHtml, getSampleSVG, getUuid} from "../helper";
 import axios from "axios";
-import {ResultsContext} from "../context";
 import DragDropFile from "./DragDropFile";
-import FormSvgConvertor from "./FormSvgConvertor";
+import {SvgConvertorContext} from "../context/SvgConvertorContext";
 
 type SidebarProps = {
     title: string,
@@ -15,7 +13,7 @@ type SidebarProps = {
 };
 
 function Sidebar({title, description, allowUploader = false, formConvertor}: SidebarProps) {
-    const {results, setResults} = useContext(ResultsContext);
+    const {results, setResults} = useContext(SvgConvertorContext);
     const [textArea, setTextArea] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [submitted, setSubmittedStatus] = useState<boolean>(false);
@@ -75,12 +73,12 @@ function Sidebar({title, description, allowUploader = false, formConvertor}: Sid
             codeSample: compiledSamples.symbolExample,
             time: new Date()
         }, ...prevState]);
-
         clearInputs();
         setIsLoading(false);
     }
 
     useEffect(() => {
+        console.log(results)
         if (!results.length) return;
         localStorage.setItem('svg-to-symbol-converter', JSON.stringify(results));
     }, [results])
