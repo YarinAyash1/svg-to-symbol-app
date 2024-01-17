@@ -1,5 +1,6 @@
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {Link} from "react-router-dom";
+import IsraelFlag from "./icons/IsraelFlag";
 
 function HeaderNavbar(): JSX.Element | null {
     return (
@@ -13,6 +14,14 @@ function HeaderNavbar(): JSX.Element | null {
                         className="d-inline-block align-top"
                         alt="React Bootstrap logo"
                     />
+                    <IsraelFlag style={{
+                        width: '55px',
+                        height: '42px',
+                        position: 'absolute',
+                        right: '10px',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                    }}/>
                 </Navbar.Brand>
                 <Nav className="me-auto">
                     <Nav.Item>

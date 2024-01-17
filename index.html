@@ -12,7 +12,19 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
     <script>window.global = window;</script>
-
+    <script>
+      (function () {
+        var script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src = "https://bringthemhomenow.net/1.0.1/hostages-ticker.js";
+        script.setAttribute(
+                "integrity",
+                "sha384-RtzuLlxIAusxCPpzYFNMIqob3ATD8mah607/i7RVMgfuCYPP+7ZJ9bcoAXRHiafa"
+        );
+        script.setAttribute("crossorigin", "anonymous");
+        document.getElementsByTagName("head")[0].appendChild(script);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>
@@ -28,5 +40,7 @@
     <!-- Cloudflare Web Analytics -->
     <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "032cd5dfa6b647d18b5edaf32d550718"}'></script>
     <!-- End Cloudflare Web Analytics -->
+    <div id="bthn" lang="en"></div>
+
   </body>
 </html>

@@ -243,3 +243,14 @@ a, .btn {
   }
 }
 
+#bthn{
+  left: unset !important;
+  bottom: 20px !important;
+  right: 240px;
+}
+
+@media screen and (max-width: 767px) {
+  #bthn{
+    display: none !important;
+  }
+}
